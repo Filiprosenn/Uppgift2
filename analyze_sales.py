@@ -1,9 +1,11 @@
 import csv
 import os
 import locale
+from collections import Counter
 
 def analyze_sales_data(filename):
     products = {}
+    all_products = [] 
 
     with open(filename, 'r') as file:
         reader = csv.DictReader(file)
@@ -11,13 +13,16 @@ def analyze_sales_data(filename):
             product = row['Product']
             sales = float(row['Sales'])
             
+            all_products.append(product)
+
+
             if product in products:
                 products[product] += sales
             else:
                 products[product] = sales
     
     #TODO: Hitta den mest sålda produkten (TIPS! Använd Counter från collections)
-    
+    most_sold = Counter(all_products).most_common(1)[0]
     # Hitta den mest lukrativa produkten
     most_lucrative_product = max(products, key=products.get)
     
